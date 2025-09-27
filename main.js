@@ -28,7 +28,7 @@ document.getElementById("btn9").onclick = function () {
   add(btn9.textContent);
 };
 document.getElementById("btn0").onclick = function () {
-  add(btn0.textContent);
+  addZero(btn0.textContent);
 };
 document.getElementById("btnDot").onclick = function () {
   addD(btnDot.textContent);
@@ -67,6 +67,7 @@ function add(value) {
   if (display.textContent === "0") {
     display.textContent = value;
   } else display.textContent += value;
+  displayHeight();
 }
 
 function complute() {
@@ -83,6 +84,7 @@ function complute() {
     alert("произошла ошибка, поле ввода было очищено");
     display.textContent = "0";
   }
+  historyHeight();
 }
 
 function deleteC() {
@@ -90,7 +92,9 @@ function deleteC() {
   complute--;
   if (compluteN == false) {
     history.textContent = "история: 0";
+    historyHeight();
   } else compluteN = false;
+  displayHeight();
 }
 
 function back() {
@@ -100,6 +104,7 @@ function back() {
   } else if (display.textContent !== 0) {
     display.textContent = 0;
   }
+  displayHeight();
 }
 
 let open = 0;
@@ -118,38 +123,81 @@ function addS(value) {
     open++;
     display.textContent += value;
   }
+  displayHeight();
 }
 
 function addP(value) {
   let operator = display.textContent.slice(-1);
   if ("+-*/".includes(value) && "+-*/".includes(operator)) {
     display.textContent = display.textContent.slice(0, length - 1) + value;
-  } else if ("+-*/".includes(value) && ".()".includes(operator)) {
+  } else if (
+    ("+-*/".includes(value) && ".()".includes(operator)) ||
+    display.textContent === "0"
+  ) {
     return;
   } else display.textContent += value;
+  displayHeight();
 }
 
 function addD(value) {
+  let operator = display.textContent.slice(-1);
   let pole = display.textContent.split("");
   pole.reverse();
   let dot = false;
 
   let indexPOle = display.textContent.length;
-  let i = 0;
-  while (i !== indexPOle) {
+  for (let i = 0; i !== indexPOle; i++) {
     if ("-+*/".includes(pole[i])) {
       dot = false;
       i = 0;
       break;
-    } else if (".".includes(pole[i])) {
+    } else if ("().".includes(pole[i])) {
       dot = true;
       i = 0;
       break;
     }
-    i++;
   }
 
-  if (dot == false) {
+  if (dot == false && !"-+*/".includes(operator)) {
     display.textContent += value;
   }
+  displayHeight();
+}
+
+function addZero(value) {
+  let pole = display.textContent.split("");
+  pole.reverse();
+  let zero = true;
+
+  let indexPOle = display.textContent.length;
+  for (let i = 0; i !== indexPOle; i++) {
+    if (pole[0 + i] === "0" && "-+/*)".includes(pole[1 + i])) {
+      zero = false;
+      i = 0;
+      break;
+    } else if (
+      "123456789)".includes(pole[0 + i]) ||
+      ".".includes(pole[0 + i])
+    ) {
+      zero = true;
+      i = 0;
+      break;
+    }
+  }
+
+  if (zero && display.textContent !== "0") {
+    display.textContent += value;
+  }
+  displayHeight();
+}
+
+function displayHeight() {
+  console.log(history.textContent.length);
+  n = Math.floor((display.textContent.length + 20) / 20);
+  display.style.height = `${55 * n}px`;
+}
+
+function historyHeight() {
+  n = Math.floor((history.textContent.length + 32) / 32);
+  history.style.height = `${35 * n}px`;
 }

@@ -1,97 +1,98 @@
-*{
-    background: black;
+* {
+  background: black;
 }
 
-.butt{
-    float: left;
-    background: rgb(226, 228, 146);
-    width: 100px;
-    height: 100px;
-    margin-bottom: 10px;
-    margin-right: 10px;
-    box-sizing: border-box;
-    border: 1px solid black;
-    font-size: 40px;
-    color: black;
+.butt {
+  float: left;
+  background: rgb(226, 228, 146);
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  box-sizing: border-box;
+  border: 1px solid black;
+  font-size: 40px;
+  color: black;
 }
 
-:hover.butt{
-    background: rgb(186, 187, 102);
-    box-shadow: 0px 5px 10px ;
+:hover.butt {
+  background: rgb(186, 187, 102);
+  box-shadow: 0px 5px 10px;
 }
 
 :active.butt {
-    background: rgb(165, 167, 90);
+  background: rgb(165, 167, 90);
 }
 
-.but button:nth-child(1){
-    border-top-left-radius: 10px;
+.but button:nth-child(1) {
+  border-top-left-radius: 10px;
 }
 
-.but button:nth-child(4){
-    border-top-right-radius: 10px;
+.but button:nth-child(4) {
+  border-top-right-radius: 10px;
 }
 
-.but button:nth-child(17){
-    border-bottom-left-radius: 10px;
+.but button:nth-child(17) {
+  border-bottom-left-radius: 10px;
 }
 
-.but button:nth-child(20){
-    border-bottom-right-radius: 10px;
+.but button:nth-child(20) {
+  border-bottom-right-radius: 10px;
 }
 
-.but{
-    border: 1px solid black;
-    background: rgb(187, 252, 158);
-    width: 440px;
-    padding: 10px 0px 0px 10px;
-    height: 550px;
-    border-radius: 22px;
-    margin: 0px;
+.but {
+  border: 1px solid black;
+  background: rgb(187, 252, 158);
+  width: 440px;
+  padding: 10px 0px 0px 10px;
+  height: 550px;
+  border-radius: 22px;
+  margin: 0px;
 }
 
-.cul{
-    width: 430px;
-    margin: 0px;
-    padding: 0px 0px 25px 20px;
-    background: rgb(187, 252, 158);
+.history {
+  height: 35px;
+  margin: 0px;
+  width: 430px;
+  word-break: break-all;
+  border: 1px solid black;
+  border-bottom: 1px dotted black;
+  padding: 0px 0px 0px 20px;
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  font-size: 30px;
+  color: rgb(143, 143, 143);
+  background: rgb(198, 245, 176);
 }
 
-.cull p:nth-child(1){
-    height: 20px;
-    border: 1px solid black;
-    border-bottom: 1px dotted black;
-    padding: 0px 0px 10px 20px;
-    border-top-left-radius: 22px;
-    border-top-right-radius: 22px;
-    font-size: 30px;
-    color: rgb(143, 143, 143);  
-    background: rgb(198, 245, 176);
+.result {
+  margin: 0px 0px 10px 0px;
+  height: 55px;
+  width: 430px;
+  border: 1px solid black;
+  border-top: 0px;
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+  font-size: 40px;
+  color: gray;
+  max-width: 430px;
+  word-break: break-all;
+  padding: 0px 0px 0px 20px;
+  background: rgb(187, 252, 158);
 }
 
-.cull p:nth-child(2){
-    margin: 0px 0px 10px 0px;
-    height: 20px;
-    border: 1px solid black;
-    border-top: 0px;
-    border-bottom-left-radius: 22px;
-    border-bottom-right-radius: 22px;
-    font-size: 40px;
-    color: gray;
+.cull {
+  width: 440px;
+  padding: 0px 0px 0px 0px;
+  margin: 0px;
+  background: rgb(191, 255, 212);
 }
 
-.cull{
-    width: 440px;
-    padding: 0px 0px 0px 0px;
-    margin: 0px;
-    background: rgb(191, 255, 212);
-}
-
-.main{
-    padding: 20px 20px 10px 20px;
-    background: rgb(191, 255, 212);
-    margin: 0px;
-    align-content: center;
-    width: 450px;
-    border-radius: 22px;
+.main {
+  padding: 20px 20px 10px 20px;
+  background: rgb(191, 255, 212);
+  margin: 0px;
+  align-content: center;
+  width: 450px;
+  border-radius: 22px;
 }
