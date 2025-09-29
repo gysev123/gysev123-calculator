@@ -83,16 +83,19 @@ function complute() {
   } catch (e) {
     alert("произошла ошибка, поле ввода было очищено");
     display.textContent = "0";
+    displayHeight()
   }
   historyHeight();
 }
 
 function deleteC() {
-  display.textContent = 0;
+  display.textContent = 0;
+
   if (compluteN == false) {
     history.textContent = "история: 0";
     historyHeight();
-  } else compluteN = false;
+  } else compluteN = false;
+
 }
 
 function back() {
@@ -189,7 +192,8 @@ function addZero(value) {
   displayHeight();
 }
 
-function displayHeight() {
+function displayHeight() {
+
   n = Math.floor((display.textContent.length + 20) / 20);
   display.style.height = `${55 * n}px`;
 }
@@ -198,3 +202,4 @@ function historyHeight() {
   n = Math.floor((history.textContent.length + 32) / 32);
   history.style.height = `${35 * n}px`;
 }
+
