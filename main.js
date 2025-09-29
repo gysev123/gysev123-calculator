@@ -92,8 +92,7 @@ function deleteC() {
   if (compluteN == false) {
     history.textContent = "история: 0";
     historyHeight();
-  } else compluteN = false;
-  displayHeight();
+  } else compluteN = false;
 }
 
 function back() {
@@ -190,8 +189,7 @@ function addZero(value) {
   displayHeight();
 }
 
-function displayHeight() {
-  console.log(history.textContent.length);
+function displayHeight() {
   n = Math.floor((display.textContent.length + 20) / 20);
   display.style.height = `${55 * n}px`;
 }
