@@ -88,8 +88,7 @@ function complute() {
 }
 
 function deleteC() {
-  display.textContent = 0;
-  complute--;
+  display.textContent = 0;
   if (compluteN == false) {
     history.textContent = "история: 0";
     historyHeight();
