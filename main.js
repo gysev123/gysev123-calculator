@@ -64,8 +64,9 @@ document.getElementById("btnCom").onclick = function () {
 let compluteN = false;
 
 function add(value) {
-  if (display.textContent === "0") {
-    display.textContent = value;
+  zero = checkZero();
+  if (!zero) {
+    display.textContent = display.textContent.slice(0, length - 1) + value;
   } else display.textContent += value;
   displayHeight();
 }
@@ -83,7 +84,7 @@ function complute() {
   } catch (e) {
     alert("произошла ошибка, поле ввода было очищено");
     display.textContent = "0";
-    displayHeight()
+    displayHeight();
   }
   historyHeight();
 }
@@ -95,7 +96,6 @@ function deleteC() {
     history.textContent = "история: 0";
     historyHeight();
   } else compluteN = false;
-
 }
 
 function back() {
@@ -166,25 +166,7 @@ function addD(value) {
 }
 
 function addZero(value) {
-  let pole = display.textContent.split("");
-  pole.reverse();
-  let zero = true;
-
-  let indexPOle = display.textContent.length;
-  for (let i = 0; i !== indexPOle; i++) {
-    if (pole[0 + i] === "0" && "-+/*)".includes(pole[1 + i])) {
-      zero = false;
-      i = 0;
-      break;
-    } else if (
-      "123456789)".includes(pole[0 + i]) ||
-      ".".includes(pole[0 + i])
-    ) {
-      zero = true;
-      i = 0;
-      break;
-    }
-  }
+  let zero = checkZero();
 
   if (zero && display.textContent !== "0") {
     display.textContent += value;
@@ -192,8 +174,27 @@ function addZero(value) {
   displayHeight();
 }
 
-function displayHeight() {
+function checkZero() {
+  let pole = display.textContent.split("");
+  pole.reverse();
+  let indexPOle = display.textContent.length;
+  for (let i = 0; i !== indexPOle; i++) {
+    if (pole[0 + i] === "0" && "-+/*)".includes(pole[1 + i])) {
+      zero = false;
+      i = 0;
+      return zero;
+    } else if (
+      "123456789)".includes(pole[0 + i]) ||
+      ".".includes(pole[0 + i])
+    ) {
+      zero = true;
+      i = 0;
+      return zero;
+    }
+  }
+}
 
+function displayHeight() {
   n = Math.floor((display.textContent.length + 20) / 20);
   display.style.height = `${55 * n}px`;
 }
@@ -202,4 +203,3 @@ function historyHeight() {
   n = Math.floor((history.textContent.length + 32) / 32);
   history.style.height = `${35 * n}px`;
 }
-
