@@ -1,166 +1,205 @@
-const List = document.getElementById("list");
-const newList = document.createElement("li");
-const editbtn = document.getElementById("edit");
-const data = localStorage.getItem("note");
-const count = document.getElementById("count");
-const notes = data ? JSON.parse(data) : [];
-document.getElementById("agree").onclick = function () {
-  addNote();
+const display = document.getElementById("result");
+const history = document.getElementById("hist");
+document.getElementById("btn1").onclick = function () {
+  add(btn1.textContent);
 };
-document.getElementById("search").onclick = function () {
-  search();
+document.getElementById("btn2").onclick = function () {
+  add(btn2.textContent);
+};
+document.getElementById("btn3").onclick = function () {
+  add(btn3.textContent);
+};
+document.getElementById("btn4").onclick = function () {
+  add(btn4.textContent);
+};
+document.getElementById("btn5").onclick = function () {
+  add(btn5.textContent);
+};
+document.getElementById("btn6").onclick = function () {
+  add(btn6.textContent);
+};
+document.getElementById("btn7").onclick = function () {
+  add(btn7.textContent);
+};
+document.getElementById("btn8").onclick = function () {
+  add(btn8.textContent);
+};
+document.getElementById("btn9").onclick = function () {
+  add(btn9.textContent);
+};
+document.getElementById("btn0").onclick = function () {
+  addZero(btn0.textContent);
+};
+document.getElementById("btnDot").onclick = function () {
+  addD(btnDot.textContent);
+};
+document.getElementById("btnResult").onclick = function () {
+  complute();
+};
+document.getElementById("btnLeft").onclick = function () {
+  addS(btnLeft.textContent);
+};
+document.getElementById("btnRight").onclick = function () {
+  addS(btnRight.textContent);
+};
+document.getElementById("btnPlus").onclick = function () {
+  addP(btnPlus.textContent);
+};
+document.getElementById("btnMinus").onclick = function () {
+  addP(btnMinus.textContent);
+};
+document.getElementById("btnBack").onclick = function () {
+  back();
+};
+document.getElementById("btnC").onclick = function () {
+  deleteC();
+};
+document.getElementById("btnDel").onclick = function () {
+  addP(btnDel.textContent);
+};
+document.getElementById("btnCom").onclick = function () {
+  addP(btnCom.textContent);
 };
 
-function clear() {
-  localStorage.clear();
+let compluteN = false;
+
+function add(value) {
+  if (display.textContent === "0") {
+    display.textContent = value;
+  } else display.textContent += value;
+  displayHeight();
 }
 
-function addNote() {
-  const textPole = document.getElementById("text").value;
-  if (textPole.length == 0) {
+function complute() {
+  try {
+    let pole = display.textContent;
+    let result = eval(pole);
+    if (result !== result) {
+      throw new console.error("ошибка вычислений");
+    }
+    display.textContent = result;
+    compluteN = true;
+    history.textContent = "история: " + pole + " = " + result;
+  } catch (e) {
+    alert("произошла ошибка, поле ввода было очищено");
+    display.textContent = "0";
+    displayHeight()
+  }
+  historyHeight();
+}
+
+function deleteC() {
+  display.textContent = 0;
+
+  if (compluteN == false) {
+    history.textContent = "история: 0";
+    historyHeight();
+  } else compluteN = false;
+
+}
+
+function back() {
+  let size = display.textContent.length;
+  if (size !== 1) {
+    display.textContent = display.textContent.slice(0, length - 1);
+  } else if (display.textContent !== 0) {
+    display.textContent = 0;
+  }
+  displayHeight();
+}
+
+let open = 0;
+
+function addS(value) {
+  let operator = display.textContent.slice(-1);
+  if (value == ")" && !".+-*/".includes(operator)) {
+    if (open == 0) {
+      return;
+    }
+    open--;
+    display.textContent += value;
+  }
+
+  if (value == "(" && ".+-*/".includes(operator)) {
+    open++;
+    display.textContent += value;
+  }
+  displayHeight();
+}
+
+function addP(value) {
+  let operator = display.textContent.slice(-1);
+  if ("+-*/".includes(value) && "+-*/".includes(operator)) {
+    display.textContent = display.textContent.slice(0, length - 1) + value;
+  } else if (
+    ("+-*/".includes(value) && ".()".includes(operator)) ||
+    display.textContent === "0"
+  ) {
     return;
-  }
-
-  notes.push({
-    title: textPole,
-    completed: false,
-    date: new Date(),
-  });
-
-  document.getElementById("text").value = "";
-  editbtn.innerHTML = "";
-  render();
+  } else display.textContent += value;
+  displayHeight();
 }
 
-function render() {
-  localStorage.setItem("note", JSON.stringify(notes));
-  List.innerHTML = "";
-  if (notes.length == 0) {
-    List.innerHTML = `<p class="warning">пусто</p>`;
-  }
-  for (let i = 0; i < notes.length; i++) {
-    List.insertAdjacentHTML("afterbegin", createList(notes[i], i));
-  }
-}
+function addD(value) {
+  let operator = display.textContent.slice(-1);
+  let pole = display.textContent.split("");
+  pole.reverse();
+  let dot = false;
 
-function createList(note, index) {
-  const now = note.date ? new Date(note.date) : new Date();
-  if (!isNaN(now.getTime())) {
-    now.setMilliseconds(0);
-  } else {
-    now = new Date();
-  }
-
-  let hours = now.getHours().toString().padStart(2, "0");
-  let minutes = now.getMinutes().toString().padStart(2, "0");
-  let day = now.getDate();
-  let monthIndex = now.getMonth();
-  let year = now.getFullYear();
-
-  const months = [
-    "января",
-    "февраля",
-    "марта",
-    "апреля",
-    "мая",
-    "июня",
-    "июля",
-    "августа",
-    "сентября",
-    "октября",
-    "ноября",
-    "декабря",
-  ];
-  let monthName = months[monthIndex];
-
-  if (day % 10 === 1 && day !== 11) {
-    day += "-го";
-  } else if ([2, 3, 4].includes(day % 10) && ![12, 13, 14].includes(day)) {
-    day += "-е";
-  } else {
-    day += "-ое";
-  }
-
-  let spanClass = note.completed ? "valueListC" : "valueList";
-  let item = note.completed ? "itemtrue" : "itemfalse";
-
-  count.textContent = `количество: ${notes.length}`;
-
-  return `
-      <li class="${item}">
-        <span class="${spanClass}">${note.title}</span>
-        <span class="right">
-          <span class="buttonList">
-            <span class="editList" data-index="${index}" data-type="edit">✏️</span>
-            <span class="succesList" data-index="${index}" data-type="toggle">✅</span>
-            <span class="deleteList" data-index="${index}" data-type="remove">❌</span>
-          </span>
-          <span class="date">${year}, ${day} ${monthName}, ${hours}:${minutes}</span>
-        </span>
-      </li>`;
-}
-
-function search() {
-  const searchT = document.getElementById("searchT").value;
-  List.innerHTML = "";
-  let y = 0;
-  for (let i = 0; i < notes.length; i++) {
-    if (notes[i].title.toLowerCase().includes(searchT.toLowerCase())) {
-      List.insertAdjacentHTML("afterbegin", createList(notes[i], i));
-      y++;
+  let indexPOle = display.textContent.length;
+  for (let i = 0; i !== indexPOle; i++) {
+    if ("-+*/".includes(pole[i])) {
+      dot = false;
+      i = 0;
+      break;
+    } else if ("().".includes(pole[i])) {
+      dot = true;
+      i = 0;
+      break;
     }
   }
-  count.textContent = `количество: ${y}`;
-  if (y == 0) {
-    List.innerHTML = `<p class="warning">результатов нет</p>`;
+
+  if (dot == false && !"-+*/".includes(operator)) {
+    display.textContent += value;
   }
+  displayHeight();
 }
 
-List.onclick = function (event) {
-  if (event.target.dataset.index) {
-    const index = parseInt(event.target.dataset.index);
-    const type = event.target.dataset.type;
+function addZero(value) {
+  let pole = display.textContent.split("");
+  pole.reverse();
+  let zero = true;
 
-    if (type == "toggle") {
-      notes[index].completed = !notes[index].completed;
-    } else if (type == "remove") {
-      button.style.display = "block";
-      editbtn.innerHTML = "";
-      notes.splice(index, 1);
-      document.getElementById("text").value = "";
-    } else if (type == "edit") {
-      button.style.display = "none";
-      editNote(index);
-      document.getElementById("text").value = notes[index].title;
+  let indexPOle = display.textContent.length;
+  for (let i = 0; i !== indexPOle; i++) {
+    if (pole[0 + i] === "0" && "-+/*)".includes(pole[1 + i])) {
+      zero = false;
+      i = 0;
+      break;
+    } else if (
+      "123456789)".includes(pole[0 + i]) ||
+      ".".includes(pole[0 + i])
+    ) {
+      zero = true;
+      i = 0;
+      break;
     }
-
-    render();
   }
-};
 
-function editNote(index) {
-  editbtn.innerHTML = `<button data-index="${index}" data-type="editBtn" class="btnEdit">отредактировать</button>
-  <button data-index="${index}" data-type="editBtnClose" class="btnEditClose">Х</button>`;
+  if (zero && display.textContent !== "0") {
+    display.textContent += value;
+  }
+  displayHeight();
 }
 
-editbtn.onclick = function (event) {
-  const textPole = document.getElementById("text").value;
-  if (event.target.dataset.index) {
-    const index = parseInt(event.target.dataset.index);
-    const type = event.target.dataset.type;
+function displayHeight() {
 
-    if (type == "editBtn") {
-      notes[index].title = textPole;
-      editbtn.innerHTML = "";
-      button.style.display = "block";
-      document.getElementById("text").value = "";
-    } else if (type == "editBtnClose") {
-      editbtn.innerHTML = "";
-      document.getElementById("text").value = "";
-      button.style.display = "block";
-    }
-  }
-  render();
-};
+  n = Math.floor((display.textContent.length + 20) / 20);
+  display.style.height = `${55 * n}px`;
+}
 
-render();
+function historyHeight() {
+  n = Math.floor((history.textContent.length + 32) / 32);
+  history.style.height = `${35 * n}px`;
+}
+
